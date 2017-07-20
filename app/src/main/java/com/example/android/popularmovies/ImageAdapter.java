@@ -3,6 +3,7 @@ package com.example.android.popularmovies;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.squareup.picasso.Picasso;
  */
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
+    private final String LOG_TAG = ImageAdapter.class.getSimpleName();
 
     private Context mContext;
     private final Movie[] mMovies;
@@ -75,6 +77,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 Movie movie = mMovies[position];
+                Log.d(LOG_TAG, "position  :" + position);
 
                 Intent intent = new Intent(mContext, MovieDetailsActivity.class);
                 intent.putExtra(String.valueOf(R.string.parcel_movie), movie);

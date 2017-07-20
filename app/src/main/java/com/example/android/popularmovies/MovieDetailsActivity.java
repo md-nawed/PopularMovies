@@ -45,7 +45,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 .into(ivPoster);
 
         String overView = movie.getOverview();
-        Log.d(LOG_TAG, "panigale title =:" + overView);
+        Log.d(LOG_TAG, " overview :" + overView);
 
         if (overView == null) {
             tvOverView.setTypeface(null, Typeface.ITALIC);
