@@ -19,6 +19,12 @@ import java.text.ParseException;
 public class MovieDetailsActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MovieDetailsActivity.class.getSimpleName();
+    private TextView tvOriginalTitle;
+    private ImageView ivPoster;
+    private TextView tvOverView;
+    private TextView tvVoteAverage;
+    private TextView tvReleaseDate;
+    private Movie movie;
 
 
     @Override
@@ -26,14 +32,39 @@ public class MovieDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        TextView tvOriginalTitle = (TextView) findViewById(R.id.textview_original_title);
-        ImageView ivPoster = (ImageView) findViewById(R.id.imageview_poster);
-        TextView tvOverView = (TextView) findViewById(R.id.textview_overview);
-        TextView tvVoteAverage = (TextView) findViewById(R.id.textview_vote_average);
-        TextView tvReleaseDate = (TextView) findViewById(R.id.textview_release_date);
+        tvOriginalTitle = (TextView) findViewById(R.id.textview_original_title);
+        if (tvOriginalTitle == null) {
+            Log.w("", "TVoriginalTitle is null");
+        }
+        ivPoster = (ImageView) findViewById(R.id.imageview_poster);
+        if (ivPoster == null) {
+            Log.w("", "ImageView is null");
+        }
+        tvOverView = (TextView) findViewById(R.id.textview_overview);
+        if (tvOverView == null) {
+            Log.w("", "Overview is null");
+        }
+        tvVoteAverage = (TextView) findViewById(R.id.textview_vote_average);
+        if (tvVoteAverage == null) {
+            Log.w("", "voteaverage is null");
+        }
+        tvReleaseDate = (TextView) findViewById(R.id.textview_release_date);
+        if (tvReleaseDate == null) {
+            Log.w("", "releasedate is null");
+        }
 
         Intent intent = getIntent();
-        Movie movie = intent.getExtras().getParcelable(getString(R.string.parcel_movie));
+        Bundle b = this.getIntent().getExtras();
+        if (b != null) {
+            movie = b.getParcelable(getString(R.string.parcel_movie));
+        }
+
+
+        //Movie movie = (Movie) intent.getParcelableExtra(getString(R.string.parcel_movie));
+
+        Log.d(LOG_TAG, "new movie  :" + movie);
+
+
         tvOriginalTitle.setText(movie.getOriginalTitle());
 
         Picasso.with(this)
@@ -52,7 +83,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
             overView = getResources().getString(R.string.no_summary_found);
         }
         tvOverView.setText(overView);
-        //tvVoteAverage.setText(movie.getDetailedVoteAverage());
+        tvVoteAverage.setText(movie.getDetailedVoteAverage());
 
         // First get the release date from the object - to be used if something goes wrong with
         // getting localized release date (catch).

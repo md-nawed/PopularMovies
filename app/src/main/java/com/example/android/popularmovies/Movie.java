@@ -28,8 +28,9 @@ public class Movie implements Parcelable {
     }
 
     public void setOverview(String overview) {
-        if (!overview.equals("null"))
+        if (!overview.equals("null")) {
             mOverview = overview;
+        }
     }
 
     public void setVoteAverage(Double voteAverage) {
@@ -38,12 +39,17 @@ public class Movie implements Parcelable {
     }
 
     public void setReleaseDate(String releaseDate) {
-        if (!releaseDate.equals("null"))
+        if (!releaseDate.equals("null")) {
             mReleaseDate = releaseDate;
+        }
     }
 
     public Double getVoteAverage() {
         return mVoteAverage;
+    }
+
+    public String getDetailedVoteAverage() {
+        return String.valueOf(getVoteAverage()) + "/10";
     }
 
     public String getOriginalTitle() {
@@ -89,14 +95,17 @@ public class Movie implements Parcelable {
         mVoteAverage = (Double) parcel.readValue(Double.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
-        public Movie createFromParcel(Parcel source) {
-            return new Movie(source);
-        }
+    public static final Parcelable.Creator<Movie> CREATOR =
+            new Parcelable.Creator<Movie>() {
 
-        @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
+                @Override
+                public Movie createFromParcel(Parcel source) {
+                    return new Movie(source);
+                }
+
+                @Override
+                public Movie[] newArray(int size) {
+                    return new Movie[size];
+                }
+            };
 }

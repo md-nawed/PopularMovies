@@ -20,8 +20,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="3"
-            android:contentDescription="@string/description_movie_poster"/>
-            //android:src="@drawable/example_movie_poster"
+            android:contentDescription="@string/description_movie_poster" />
 
 
         <LinearLayout

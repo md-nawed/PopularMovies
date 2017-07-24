@@ -1,25 +1,29 @@
 package com.example.android.popularmovies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private Menu mMenu;
     private int numberOfColumns = 2;
     private RecyclerView recyclerView;
+    private Movie[] movies;
+    ImageAdapter imageAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_num);
+
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, numberOfColumns);
 
@@ -45,23 +50,18 @@ public class MainActivity extends AppCompatActivity {
             getMovies(getSortMethod());
 
         } else {
-            Parcelable[] parcelables = savedInstanceState.getParcelableArray(getString(R.string.parcel_movie));
-
-            if (parcelables != null) {
-                int numMovieObjects = parcelables.length;
-                Movie[] movies = new Movie[numMovieObjects];
-                for (int i = 0; i < numMovieObjects; i++) {
-                    movies[i] = (Movie) parcelables[i];
-                }
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(layoutManager);
-
-                recyclerView.setAdapter(new ImageAdapter(this, movies));
 
 
-            }
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(layoutManager);
+            imageAdapter = new ImageAdapter(this, movies);
+            recyclerView.setAdapter(imageAdapter);
+
+
         }
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -169,4 +169,20 @@ public class MainActivity extends AppCompatActivity {
         editor.putString(getString(R.string.pref_sort_method_key), sortMethod);
         editor.apply();
     }
+
+    public static void OnClicked(Context context, Movie movie) {
+
+        Intent intent = new Intent(context, MovieDetailsActivity.class);
+        Bundle b = new Bundle();
+        b.putParcelable(String.valueOf(R.string.parcel_movie), movie);
+        intent.putExtras(b);
+
+        intent.putExtra(String.valueOf(R.string.parcel_movie), movie);
+
+
+        context.startActivity(intent);
+        Log.d(LOG_TAG, "bundle  :" + b);
+    }
+
+
 }
