@@ -19,6 +19,7 @@ import java.text.ParseException;
 public class MovieDetailsActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MovieDetailsActivity.class.getSimpleName();
+    public static final String EXTRA_MOVIE = "extra_movie";
     private TextView tvOriginalTitle;
     private ImageView ivPoster;
     private TextView tvOverView;
@@ -54,9 +55,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
 
         Intent intent = getIntent();
-        Bundle b = this.getIntent().getExtras();
-        if (b != null) {
-            movie = b.getParcelable(getString(R.string.parcel_movie));
+        //Bundle b = this.getIntent().getExtras();
+        if (intent.hasExtra(EXTRA_MOVIE)) {
+            movie = intent.getParcelableExtra(EXTRA_MOVIE);
         }
 
 

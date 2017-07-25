@@ -10,7 +10,6 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -173,15 +172,15 @@ public class MainActivity extends AppCompatActivity {
     public static void OnClicked(Context context, Movie movie) {
 
         Intent intent = new Intent(context, MovieDetailsActivity.class);
-        Bundle b = new Bundle();
-        b.putParcelable(String.valueOf(R.string.parcel_movie), movie);
-        intent.putExtras(b);
+        //Bundle b = new Bundle();
+        //b.putParcelable(String.valueOf(R.string.parcel_movie), movie);
+        //intent.putExtras(b);
 
-        intent.putExtra(String.valueOf(R.string.parcel_movie), movie);
+        intent.putExtra(MovieDetailsActivity.EXTRA_MOVIE, movie);
 
 
         context.startActivity(intent);
-        Log.d(LOG_TAG, "bundle  :" + b);
+
     }
 
 
