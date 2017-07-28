@@ -20,10 +20,10 @@
     <string name="pref_sort_method_key">SORT_METHOD</string>
 
     <!-- Themoviedb sort strings for url -->
-    <!-- tmdb sort 'popularity.desc' -->
-    <string name="tmdb_sort_pop_desc">popularity.desc</string>
-    <!-- tmdb sort 'vote_average.desc' -->
-    <string name="tmdb_sort_vote_avg_desc">vote_average.desc</string>
+    <string name="tmdb_sort_pop_desc">popular?</string>
+
+    <string name="tmdb_sort_vote_avg_desc">top_rated?</string>
+
     <string name="description_movie_poster">Contains poster of movie</string>
 
     <string name="error_need_internet">This application needs Internet connection to function.</string>

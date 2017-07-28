@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -25,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     public static final String STATUS_ID = "saved_recyclerview";
 
     //private Parcelable listState;
-
 
 
     @Override
@@ -156,6 +156,9 @@ public class MainActivity extends AppCompatActivity {
     private String getSortMethod() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+        String aa = prefs.getString(getString(R.string.pref_sort_method_key),
+                getString(R.string.tmdb_sort_pop_desc));
+        Log.d(LOG_TAG, "What is it?:" + aa);
         return prefs.getString(getString(R.string.pref_sort_method_key),
                 getString(R.string.tmdb_sort_pop_desc));
     }

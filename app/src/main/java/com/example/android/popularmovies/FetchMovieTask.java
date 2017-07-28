@@ -37,6 +37,8 @@ public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String moviesJsonStr = null;
+        Log.d(LOG_TAG, "url is:" + params);
+
 
         try {
             URL url = getApiUrl(params);
@@ -119,14 +121,19 @@ public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
     }
 
     private URL getApiUrl(String[] parameters) throws MalformedURLException {
-        final String BASE_URL = "https://api.themoviedb.org/3/discover/movie?";
-        final String SORT_BY_PARAM = "sort_by";
+        final String BASE_URL = "https://api.themoviedb.org/3/movie/";
+        final String SORT_BY_PARAM = "";
         final String API_KEY_PARAM = "api_key";
 
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(SORT_BY_PARAM, parameters[0])
                 .appendQueryParameter(API_KEY_PARAM, mApiKey)
+
                 .build();
+
+        Uri abc = Uri.parse(BASE_URL).buildUpon().appendQueryParameter(SORT_BY_PARAM, parameters[0]).build();
+        Log.d(LOG_TAG, "url is:" + abc.toString());
+
         return new URL(builtUri.toString());
     }
 
