@@ -18,10 +18,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private Menu mMenu;
-    private int numberOfColumns = 2;
+    private final int numberOfColumns = 2;
     private RecyclerView recyclerView;
     private Movie[] movies;
     ImageAdapter imageAdapter;
+    public static final String STATUS_ID = "saved_recyclerview";
+
+    //private Parcelable listState;
+
 
 
     @Override
@@ -30,32 +34,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_num);
+        recyclerView.setHasFixedSize(true);
 
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, numberOfColumns);
-
-        //ItemClickSupport.addTo(recyclerView).setOnItemClickListener(
-        //      new ItemClickSupport.OnItemClickListener() {
-        //
-        //                  @Override
-        //                public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-        //              Movie movie = (Movie) RecyclerView.ViewHolder.getItemView();
-        //            }
-        //      }
-        //);
+        recyclerView.setLayoutManager(layoutManager);
+        imageAdapter = new ImageAdapter(this, movies);
+        recyclerView.setAdapter(imageAdapter);
 
 
         if (savedInstanceState == null) {
             getMovies(getSortMethod());
 
         } else {
-
-
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(layoutManager);
-            imageAdapter = new ImageAdapter(this, movies);
-            recyclerView.setAdapter(imageAdapter);
-
+            // Couldn't save data in onSaveInstanceState.
 
         }
 
@@ -69,12 +61,10 @@ public class MainActivity extends AppCompatActivity {
 
         menu.add(Menu.NONE, R.id.item1, Menu.NONE, null)
                 .setVisible(false)
-                //.setIcon(R.drawable.ic_action_poll)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
         menu.add(Menu.NONE, R.id.item2, Menu.NONE, null)
                 .setVisible(false)
-                //.setIcon(R.drawable.ic_action_poll)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
         updateMenu();
@@ -90,8 +80,13 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < numMovieObjects; i++) {
 
                 //movies[i]=(Movie) recyclerView.getAdapter().get
+                //movies[i] = ImageAdapter.getMov();
             }
         }
+
+        //listState = recyclerView.getLayoutManager().onSaveInstanceState();
+        //outState.putParcelable(STATUS_ID, listState);
+
         super.onSaveInstanceState(outState);
     }
 
@@ -130,12 +125,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void getMovies(String sortMethod) {
         if (isNetworkAvailable()) {
-            String apiKey = getString(R.string.key_themoviedb);
+            String apiKey = getString(R.string.key_themoviedb); //Insert api key
             OnTaskCompleted taskCompleted = new OnTaskCompleted() {
                 @Override
                 public void onFetchMoviesTaskCompleted(Movie[] movies) {
-                    recyclerView.setAdapter(new ImageAdapter(getApplicationContext(), movies));
+
                     recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), numberOfColumns));
+
+                    recyclerView.setAdapter(new ImageAdapter(getApplicationContext(), movies));
+                    //imageAdapter.notifyDataSetChanged();
 
                 }
             };
@@ -172,16 +170,13 @@ public class MainActivity extends AppCompatActivity {
     public static void OnClicked(Context context, Movie movie) {
 
         Intent intent = new Intent(context, MovieDetailsActivity.class);
+
         //Bundle b = new Bundle();
         //b.putParcelable(String.valueOf(R.string.parcel_movie), movie);
         //intent.putExtras(b);
 
         intent.putExtra(MovieDetailsActivity.EXTRA_MOVIE, movie);
-
-
         context.startActivity(intent);
-
     }
-
 
 }

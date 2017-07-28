@@ -10,18 +10,14 @@
     <string name="no_summary_found">No summary was found</string>
 
     <!-- Some strings used for example layout during design -->
-    <string name="example_original_title">The Green Poster Man</string>
-    <string name="example_release_date">08–31–2015</string>
-    <string name="example_vote_average">8.2/10</string>
-    <string name="example_overview">A green, disconcerted, man takes on the mafia in underground North Korea to save his ferret. He\'ll find a lot of challenges, horror and romance on his journey. Who knows? Maybe Kim Jung-un makes a cameo appearance?</string>
-
+    <string name="example_original_title">Dawn of the Planet of the Apes</string>
+    <string name="example_release_date">26–06–2014</string>
+    <string name="example_vote_average">7.3/10</string>
+    <string name="example_overview">A group of scientist in San Fransisco struggle to stay alive in the aftermath of a plague that is wiping out humanity, while Caesar tries to maintain dominance over his community of intelligent apes.</string>
     <!-- Lifetime and Bundle -->
-    <string name="parcel_movie">PARCEL_MOVIE</string>
 
     <!-- Preference items -->
     <string name="pref_sort_method_key">SORT_METHOD</string>
-    <string name="pref_sort_vote_avg_desc_key">SORT_VOTE_AVERAGE_DESC</string>
-    <string name="pref_sort_pop_desc_key">SORT_POPULARITY_DESC</string>
 
     <!-- Themoviedb sort strings for url -->
     <!-- tmdb sort 'popularity.desc' -->
@@ -31,6 +27,8 @@
     <string name="description_movie_poster">Contains poster of movie</string>
 
     <string name="error_need_internet">This application needs Internet connection to function.</string>
-    <string name="key_themoviedb">42dd414a0e8acdb3832fe54d5234c3ad</string>
+
+
+    <string name="key_themoviedb"></string>
 
 </resources>

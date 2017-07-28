@@ -20,11 +20,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MovieDetailsActivity.class.getSimpleName();
     public static final String EXTRA_MOVIE = "extra_movie";
-    private TextView tvOriginalTitle;
-    private ImageView ivPoster;
-    private TextView tvOverView;
-    private TextView tvVoteAverage;
-    private TextView tvReleaseDate;
     private Movie movie;
 
 
@@ -33,26 +28,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        tvOriginalTitle = (TextView) findViewById(R.id.textview_original_title);
-        if (tvOriginalTitle == null) {
-            Log.w("", "TVoriginalTitle is null");
-        }
-        ivPoster = (ImageView) findViewById(R.id.imageview_poster);
-        if (ivPoster == null) {
-            Log.w("", "ImageView is null");
-        }
-        tvOverView = (TextView) findViewById(R.id.textview_overview);
-        if (tvOverView == null) {
-            Log.w("", "Overview is null");
-        }
-        tvVoteAverage = (TextView) findViewById(R.id.textview_vote_average);
-        if (tvVoteAverage == null) {
-            Log.w("", "voteaverage is null");
-        }
-        tvReleaseDate = (TextView) findViewById(R.id.textview_release_date);
-        if (tvReleaseDate == null) {
-            Log.w("", "releasedate is null");
-        }
+        TextView tvOriginalTitle = (TextView) findViewById(R.id.textview_original_title);
+        ImageView ivPoster = (ImageView) findViewById(R.id.imageview_poster);
+        TextView tvOverView = (TextView) findViewById(R.id.textview_overview);
+        TextView tvVoteAverage = (TextView) findViewById(R.id.textview_vote_average);
+        TextView tvReleaseDate = (TextView) findViewById(R.id.textview_release_date);
+
 
         Intent intent = getIntent();
         //Bundle b = this.getIntent().getExtras();
@@ -60,24 +41,15 @@ public class MovieDetailsActivity extends AppCompatActivity {
             movie = intent.getParcelableExtra(EXTRA_MOVIE);
         }
 
-
-        //Movie movie = (Movie) intent.getParcelableExtra(getString(R.string.parcel_movie));
-
-        Log.d(LOG_TAG, "new movie  :" + movie);
-
-
         tvOriginalTitle.setText(movie.getOriginalTitle());
 
         Picasso.with(this)
                 .load(movie.getPosterPath())
                 .resize(getResources().getInteger(R.integer.tmdb_poster_w185_width),
                         getResources().getInteger(R.integer.tmdb_poster_w185_height))
-                //.error(R.drawable.not_found)
-                //.placeholder(R.drawable.searching)
                 .into(ivPoster);
 
         String overView = movie.getOverview();
-        Log.d(LOG_TAG, " overview :" + overView);
 
         if (overView == null) {
             tvOverView.setTypeface(null, Typeface.ITALIC);
@@ -86,8 +58,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
         tvOverView.setText(overView);
         tvVoteAverage.setText(movie.getDetailedVoteAverage());
 
-        // First get the release date from the object - to be used if something goes wrong with
-        // getting localized release date (catch).
         String releaseDate = movie.getReleaseDate();
         if (releaseDate != null) {
             try {

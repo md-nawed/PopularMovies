@@ -57,13 +57,11 @@ public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
 
             while ((line = reader.readLine()) != null) {
                 builder.append(line).append("\n");
-
             }
 
             if (builder.length() == 0) {
                 return null;
             }
-
             moviesJsonStr = builder.toString();
 
         } catch (IOException e) {
@@ -110,7 +108,6 @@ public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
             movies[i] = new Movie();
             JSONObject movieInfo = resultsArray.getJSONObject(i);
 
-
             movies[i].setOriginalTitle(movieInfo.getString(ORIGINAL_TITLE));
             movies[i].setPosterPath(movieInfo.getString(POSTER_PATH));
             movies[i].setOverview(movieInfo.getString(OVERVIEW));
@@ -118,8 +115,6 @@ public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
             movies[i].setVoteAverage(movieInfo.getDouble(VOTE_AVERAGE));
 
         }
-
-
         return movies;
     }
 

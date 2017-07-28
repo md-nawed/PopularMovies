@@ -24,11 +24,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         mMovies = movies;
     }
 
-
-    //private Context getContext() {
-    //    return mContext;
-    // }
-
     @Override
     public ImageAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -37,9 +32,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
         View imageViews = inflater.inflate(R.layout.item, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(imageViews);
-
-        return viewHolder;
+        return new ViewHolder(imageViews);
     }
 
     @Override
@@ -49,16 +42,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                 .load(mMovies[position].getPosterPath())
                 .resize(mContext.getResources().getInteger(R.integer.tmdb_poster_w185_width),
                         mContext.getResources().getInteger(R.integer.tmdb_poster_w185_height))
-                //.error(R.drawable.not_found)
-                //.placeholder(R.drawable.searching)
                 .into(holder.imageView);
-
-
     }
 
     @Override
     public int getItemCount() {
-        return mMovies.length;
+
+        if (mMovies != null) {
+            return mMovies.length;
+        } else {
+            return 0;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
