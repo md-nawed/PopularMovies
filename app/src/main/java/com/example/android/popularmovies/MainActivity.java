@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         imageAdapter = new ImageAdapter(this, movies);
         recyclerView.setAdapter(imageAdapter);
-
+        getMovies(getSortMethod());
 
         if (savedInstanceState == null) {
             getMovies(getSortMethod());
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
 
             Parcelable[] parcelable = savedInstanceState.getParcelableArray("MOVIE_LIST");
+
 
             if (parcelable != null) {
                 int numObjects = parcelable.length;
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 recyclerView.setAdapter(new ImageAdapter(this, movies));
             }
-            // Couldn't save data in onSaveInstanceState.
 
         }
 
@@ -149,11 +149,7 @@ public class MainActivity extends AppCompatActivity {
             OnTaskCompleted taskCompleted = new OnTaskCompleted() {
                 @Override
                 public void onFetchMoviesTaskCompleted(Movie[] movies) {
-
-                    recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), numberOfColumns));
-
-                    recyclerView.setAdapter(new ImageAdapter(getApplicationContext(), movies));
-                    //imageAdapter.notifyDataSetChanged();
+                    imageAdapter.addAll(movies);
 
                 }
             };

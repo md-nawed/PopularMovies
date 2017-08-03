@@ -17,7 +17,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     private final String LOG_TAG = ImageAdapter.class.getSimpleName();
 
     private Context mContext;
-    public final Movie[] mMovies;
+    public Movie[] mMovies;
 
     public ImageAdapter(Context context, Movie[] movies) {
         mContext = context;
@@ -48,11 +48,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
 
-        if (mMovies != null) {
-            return mMovies.length;
-        } else {
-            return 0;
-        }
+        return (mMovies != null) ? mMovies.length : 0;
+    }
+
+    public void addAll(Movie[] movies) {
+        mMovies = movies;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
