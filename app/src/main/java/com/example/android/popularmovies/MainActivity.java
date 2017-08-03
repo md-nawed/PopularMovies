@@ -6,10 +6,12 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, numberOfColumns);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, calculateNoOfColumns(this));
         recyclerView.setLayoutManager(layoutManager);
         imageAdapter = new ImageAdapter(this, movies);
         recyclerView.setAdapter(imageAdapter);
@@ -46,10 +48,29 @@ public class MainActivity extends AppCompatActivity {
             getMovies(getSortMethod());
 
         } else {
+
+            Parcelable[] parcelable = savedInstanceState.getParcelableArray("MOVIE_LIST");
+
+            if (parcelable != null) {
+                int numObjects = parcelable.length;
+                Movie[] movies = new Movie[numObjects];
+                for (int i = 0; i < numObjects; i++) {
+                    movies[i] = (Movie) parcelable[i];
+                }
+                recyclerView.setAdapter(new ImageAdapter(this, movies));
+            }
             // Couldn't save data in onSaveInstanceState.
 
         }
 
+    }
+
+    private static int calculateNoOfColumns(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        int scalingFactor = 180;
+        int noOfColumns = (int) (dpWidth / scalingFactor);
+        return noOfColumns;
     }
 
 
@@ -73,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
+        outState.putParcelableArray("MOVIE_LIST", movies);
+        super.onSaveInstanceState(outState);
         int numMovieObjects = recyclerView.getAdapter().getItemCount();
         if (numMovieObjects > 0) {
             Movie[] movies = new Movie[numMovieObjects];
@@ -85,8 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
         //listState = recyclerView.getLayoutManager().onSaveInstanceState();
         //outState.putParcelable(STATUS_ID, listState);
-
-        super.onSaveInstanceState(outState);
     }
 
     @Override

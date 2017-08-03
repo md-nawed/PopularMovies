@@ -42,6 +42,8 @@ public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
             URL url = getApiUrl(params);
 
             urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(10000);
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
