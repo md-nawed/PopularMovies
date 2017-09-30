@@ -38,6 +38,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ImageAdapter.ViewHolder holder, int position) {
 
+
         Picasso.with(mContext)
                 .load(mMovies[position].getPosterPath())
                 .resize(mContext.getResources().getInteger(R.integer.tmdb_poster_w185_width),

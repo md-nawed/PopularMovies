@@ -20,13 +20,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private Menu mMenu;
-    private final int numberOfColumns = 2;
     private RecyclerView recyclerView;
     private Movie[] movies;
     ImageAdapter imageAdapter;
-    public static final String STATUS_ID = "saved_recyclerview";
-
-    //private Parcelable listState;
 
 
     @Override
@@ -40,9 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, calculateNoOfColumns(this));
         recyclerView.setLayoutManager(layoutManager);
-        imageAdapter = new ImageAdapter(this, movies);
-        recyclerView.setAdapter(imageAdapter);
         getMovies(getSortMethod());
+        imageAdapter = new ImageAdapter(this, movies);
+
+        recyclerView.setAdapter(imageAdapter);
+
 
         if (savedInstanceState == null) {
             getMovies(getSortMethod());
