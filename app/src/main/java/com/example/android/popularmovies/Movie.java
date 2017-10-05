@@ -3,9 +3,7 @@ package com.example.android.popularmovies;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by PC on 18-07-2017.
- */
+
 
 public class Movie implements Parcelable {
     private static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -14,6 +12,7 @@ public class Movie implements Parcelable {
     private String mOverview;
     private Double mVoteAverage;
     private String mReleaseDate;
+    private String mId;
 
     public Movie() {
 
@@ -42,6 +41,10 @@ public class Movie implements Parcelable {
         if (!releaseDate.equals("null")) {
             mReleaseDate = releaseDate;
         }
+    }
+
+    public void setId(String id) {
+        mId = id;
     }
 
     public Double getVoteAverage() {
@@ -73,6 +76,10 @@ public class Movie implements Parcelable {
         return DATE_FORMAT;
     }
 
+    public String getId() {
+        return mId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -85,6 +92,7 @@ public class Movie implements Parcelable {
         dest.writeString(mPosterPath);
         dest.writeString(mReleaseDate);
         dest.writeValue(mVoteAverage);
+        dest.writeString(mId);
     }
 
     private Movie(Parcel parcel) {
@@ -93,6 +101,7 @@ public class Movie implements Parcelable {
         mPosterPath = parcel.readString();
         mReleaseDate = parcel.readString();
         mVoteAverage = (Double) parcel.readValue(Double.class.getClassLoader());
+        mId = parcel.readString();
     }
 
     public static final Parcelable.Creator<Movie> CREATOR =

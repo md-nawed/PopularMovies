@@ -16,9 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Created by PC on 18-07-2017.
- */
 
 public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
 
@@ -100,6 +97,7 @@ public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
         final String OVERVIEW = "overview";
         final String VOTE_AVERAGE = "vote_average";
         final String RELEASE_DATE = "release_date";
+        final String ID = "id";
 
         JSONObject moviesJson = new JSONObject(moviesJsonStr);
         JSONArray resultsArray = moviesJson.getJSONArray(RESULTS);
@@ -115,6 +113,7 @@ public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
             movies[i].setOverview(movieInfo.getString(OVERVIEW));
             movies[i].setReleaseDate(movieInfo.getString(RELEASE_DATE));
             movies[i].setVoteAverage(movieInfo.getDouble(VOTE_AVERAGE));
+            movies[i].setId(movieInfo.getString(ID));
 
         }
         return movies;
@@ -127,7 +126,6 @@ public class FetchMovieTask extends AsyncTask<String, Void, Movie[]> {
         Uri builtUri = Uri.parse(BASE_URL + parameters[0]).buildUpon()
                 .appendQueryParameter(API_KEY_PARAM, mApiKey)
                 .build();
-
         return new URL(builtUri.toString());
     }
 
