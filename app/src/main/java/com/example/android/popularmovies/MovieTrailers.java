@@ -15,6 +15,10 @@ public class MovieTrailers implements Parcelable{
     private String size;
     private String type;
 
+    public MovieTrailers() {
+
+    }
+
 
     public String getId() {
         return id;

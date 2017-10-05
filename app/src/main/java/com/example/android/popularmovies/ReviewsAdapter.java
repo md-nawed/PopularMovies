@@ -3,7 +3,6 @@ package com.example.android.popularmovies;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +40,6 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
     @Override
     public void onBindViewHolder(ReviewsAdapter.ViewHolder holder, int position) {
         MovieReviews movieReviews = mMovieReviewsList.get(position);
-        Log.e("abcd", "author  is: " + movieReviews.getAuthor());
         holder.mTextView.setText("Author: " + movieReviews.getAuthor() + "\n" + movieReviews.getContent());
     }
 
@@ -50,7 +48,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         return (mMovieReviewsList != null) ? mMovieReviewsList.size() : 0;
     }
 
-    public void setReviewData(List<MovieReviews> reviewData) {
+    public void setData(List<MovieReviews> reviewData) {
         mMovieReviewsList = reviewData;
         notifyDataSetChanged();
     }

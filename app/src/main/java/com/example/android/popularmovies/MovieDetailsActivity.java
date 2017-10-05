@@ -30,10 +30,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
     public static final String EXTRA_MOVIE = "extra_movie";
     private Movie movie;
     private List<MovieReviews> movieReviewsList = new ArrayList<>();
+    private List<MovieTrailers> movieTrailersList = new ArrayList<>();
     private RecyclerView mReviewsRecycleView;
     private RecyclerView mTrailerRecycleView;
 
     private ReviewsAdapter mReviewsAdapter;
+    private TrailersAdapter mTrailersAdapter;
     private String mMovieId;
     private static final String mBaseUrl = "https://api.themoviedb.org/3/movie/";
 
@@ -43,17 +45,25 @@ public class MovieDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
         String mKey = getString(R.string.key_themoviedb);
+
         TextView tvOriginalTitle = (TextView) findViewById(R.id.textview_original_title);
         ImageView ivPoster = (ImageView) findViewById(R.id.imageview_poster);
         TextView tvOverView = (TextView) findViewById(R.id.textview_overview);
         TextView tvVoteAverage = (TextView) findViewById(R.id.textview_vote_average);
         TextView tvReleaseDate = (TextView) findViewById(R.id.textview_release_date);
         TextView tvReview = (TextView) findViewById(R.id.textview_review_title);
+
         mReviewsRecycleView = (RecyclerView) findViewById(R.id.rv_reviews);
+        mTrailerRecycleView = (RecyclerView) findViewById(R.id.rv_trailers);
 
         LinearLayoutManager linearLayoutManagerReviews = new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManagerTrailers = new LinearLayoutManager(this);
+
         linearLayoutManagerReviews.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManagerTrailers.setOrientation(LinearLayoutManager.HORIZONTAL);
+
         mReviewsRecycleView.setLayoutManager(linearLayoutManagerReviews);
+        mTrailerRecycleView.setLayoutManager(linearLayoutManagerTrailers);
 
 
         Intent intent = getIntent();
@@ -95,12 +105,23 @@ public class MovieDetailsActivity extends AppCompatActivity {
         tvReleaseDate.setText(releaseDate);
 
         String reviewsUrl = mBaseUrl + mMovieId + "/reviews?api_key=" + mKey;
-        Log.e("abcd", "url is: " + reviewsUrl);
+        String trailersUrl = mBaseUrl + mMovieId + "/videos?api_key=" + mKey;
+
+
         getReviews(reviewsUrl);
+        getTrailers(trailersUrl);
+
         mReviewsAdapter = new ReviewsAdapter(this, movieReviewsList);
+        mTrailersAdapter = new TrailersAdapter(this, movieTrailersList);
+
         mReviewsRecycleView.setAdapter(mReviewsAdapter);
+        mTrailerRecycleView.setAdapter(mTrailersAdapter);
 
+    }
 
+    private void getTrailers(String Url) {
+        URL trailersUrl = NetworkUtils.buildUrl(Url);
+        new FetchDataTask().execute(trailersUrl);
     }
 
     private void getReviews(String Url) {
@@ -114,10 +135,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         protected String doInBackground(URL... params) {
             URL url = params[0];
             try {
-                String jsonResponse = NetworkUtils.getResponseFromHttpUrl(url);
-                Log.e("abc", "jsonresonse is: " + jsonResponse);
 
-                return jsonResponse;
+                return NetworkUtils.getResponseFromHttpUrl(url);
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
@@ -133,9 +152,44 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                mReviewsAdapter.setReviewData(movieReviewsList);
+                mReviewsAdapter.setData(movieReviewsList);
+            } else if (response.contains("site")) {
+                try {
+                    parseJsonTrailers(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mTrailersAdapter.setData(movieTrailersList);
             }
             super.onPostExecute(response);
+        }
+    }
+
+    private void parseJsonTrailers(String response) throws JSONException {
+        final String RESULTS = "results";
+        final String ID = "id";
+        final String ISO_639_1 = "iso_639_1";
+        final String ISO_3166_1 = "iso_3166_1";
+        final String KEY = "key";
+        final String NAME = "name";
+        final String SITE = "site";
+        final String SIZE = "size";
+        final String TYPE = "type";
+        JSONObject trailersJson = new JSONObject(response);
+        JSONArray trailersArray = trailersJson.getJSONArray(RESULTS);
+
+        for (int i = 0; i < trailersArray.length(); i++) {
+            JSONObject trailerInfo = trailersArray.getJSONObject(i);
+            MovieTrailers trailers = new MovieTrailers();
+            trailers.setId(trailerInfo.optString(ID));
+            trailers.setIso_639_1(trailerInfo.optString(ISO_639_1));
+            trailers.setIso_3166_1(trailerInfo.optString(ISO_3166_1));
+            trailers.setKey(trailerInfo.optString(KEY));
+            trailers.setName(trailerInfo.optString(NAME));
+            trailers.setSite(trailerInfo.getString(SITE));
+            trailers.setSize(trailerInfo.getString(SIZE));
+            trailers.setType(trailerInfo.getString(TYPE));
+            movieTrailersList.add(trailers);
         }
     }
 
