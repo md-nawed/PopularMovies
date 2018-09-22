@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_num);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true); //size of view is fixed, height and width doesn't change.
 
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, calculateNoOfColumns(this));
@@ -191,5 +191,4 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(MovieDetailsActivity.EXTRA_MOVIE, movie);
         context.startActivity(intent);
     }
-
 }

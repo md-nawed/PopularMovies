@@ -1,6 +1,7 @@
 package com.example.android.popularmovies;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,7 +41,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private TrailersAdapter mTrailersAdapter;
     private String mMovieId;
     private static final String mBaseUrl = "https://api.themoviedb.org/3/movie/";
+    private final FavouriteUtils mFavouriteUtils = new FavouriteUtils();
 
+
+    private MovieDbHelper mMovieDbHelper;
+    private SQLiteDatabase mDb;
+    CheckBox mFavouriteCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         TextView tvReleaseDate = (TextView) findViewById(R.id.textview_release_date);
         TextView tvReview = (TextView) findViewById(R.id.textview_review_title);
 
+        mFavouriteCheck = (CheckBox) findViewById(R.id.favourite_checkBox);
         mReviewsRecycleView = (RecyclerView) findViewById(R.id.rv_reviews);
         mTrailerRecycleView = (RecyclerView) findViewById(R.id.rv_trailers);
 
@@ -117,6 +126,9 @@ public class MovieDetailsActivity extends AppCompatActivity {
         mReviewsRecycleView.setAdapter(mReviewsAdapter);
         mTrailerRecycleView.setAdapter(mTrailersAdapter);
 
+        mMovieDbHelper = new MovieDbHelper(this);
+        mDb = mMovieDbHelper.getWritableDatabase();
+
     }
 
     private void getTrailers(String Url) {
@@ -127,6 +139,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private void getReviews(String Url) {
         URL reviewsUrl = NetworkUtils.buildUrl(Url);
         new FetchDataTask().execute(reviewsUrl);
+    }
+
+    public void onClickFavourite(View view) {
+        boolean checked = mFavouriteCheck.isChecked();
+        mFavouriteUtils.favoriteCheck(this, Integer.parseInt(mMovieId), checked);
+
     }
 
     private class FetchDataTask extends AsyncTask<URL, Void, String> {

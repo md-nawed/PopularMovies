@@ -29,6 +29,6 @@
     <string name="error_need_internet">This application needs Internet connection to function.</string>
 
 
-    <string name="key_themoviedb">42dd414a0e8acdb3832fe54d5234c3ad</string>
+    <string name="key_themoviedb"></string>
 
 </resources>

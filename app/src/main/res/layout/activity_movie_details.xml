@@ -79,6 +79,13 @@
         </LinearLayout>
 
 
+        <CheckBox
+            android:id="@+id/favourite_checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Favourite"
+            android:onClick="onClickFavourite"/>
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
